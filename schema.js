@@ -10,20 +10,40 @@ type HackerNewsItem{
     deleted:Boolean
 
 }
+input HackerNewsItemInput{
+    id:String
+    text:String
+    timeISO:String
+    time:Int
+    title:String
+    deleted:Boolean
+
+}
 type User{
-    id:ID
+    id:ID!
     firstName : String!
     lastName : String!
-    emails:String !
+    emails:String 
+    age:Int!
+    gender : Gender
+    items:[HackerNewsItem]
 }
 input UserInput{
-    id:ID
+    id:ID!
     firstName:String!
     lastName:String!
     email:String
+    age:Int!
+    gender : Gender
+    items:[HackerNewsItemInput]
+
 
 }
-
+enum Gender{
+    Male
+    Female
+    Other
+}
 type Email {
     email:String !
 }
