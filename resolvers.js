@@ -1,28 +1,41 @@
+
+import item from './models/items'
+import User from './models/user'
 const users = []
 const root = {
-    users:()=>{
-        return users
-    },
-    item:()=>{
-        return {
-            id:"23231232112",
-            text:"This is s s s anskjdcas",
-            timeISO:"csadcsadcasdacsd",
-            time:23232,
-            title:"Learning",
-            deleted:"false"
-
+    Query:{
+        getUsers:async()=>{
+            return await User.find({});
+        },
+        getItem:async (_,{id})=>{
+        return await item.findOne({_id:id});
+        },
+        getUser:(_,{id},context,info)=>{
+        let user = users.find(o=>o.id == id)
+        return user
         }
+      
     },
-    getUser:({id})=>{
-    let user = users.find(o=>o.id == id)
-    return user
-    },
-    createUser:({input})=>{
-        users.push(input)
-        return input
+ Mutation:{
+    createUser:async (_,{input},context,info)=>{
+      
+         const user = await User.create(input)
+         return User.findOne({_id:user.id}).populate('items')
 
+    },
+    createItem:(_,{input}) => {
+        return Promise.resolve(item.create(input))
+    },
+    updateUser:async (_,{input}) =>{
+        return await User.findOne({_id:input.id},input,{new:true})
+    },
+    deleteUser:async(_,{id})=>{
+        return await User.findByIdAndRemove({_id:id});
     }
+
+ }
+   
+   
 
 }
 export default root

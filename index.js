@@ -1,8 +1,10 @@
 import express from 'express';
-import graphHttp from 'express-graphql'
-import schema from './schema.js'
-import resolver from './resolvers.js';
+import graphHttp from 'express-graphql';
+import schema from './schema.js';
+import mongoose from 'mongoose';
 const app = express()
+mongoose.Promise = global.Promise
+mongoose.connect('mongodb://localhost/graphqdb')
 app.get('/',(req,res)=>{
     res.send("Welcome to graph api")
 })
@@ -10,7 +12,7 @@ app.get('/',(req,res)=>{
 
 app.use('/graphql',graphHttp({
     schema:schema,
-    rootValue:resolver,
+
     graphiql:true
 }))
 app.listen(3000,()=>{
