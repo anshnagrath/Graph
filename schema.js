@@ -48,17 +48,29 @@ enum Gender{
 type Email {
     email:String !
 }
+input PostInput{
+    title:String
+    text:String
+}
 type Mutation {
     createUser(input:UserInput):User
     createItem(input:HackerNewsItemInput):HackerNewsItem
     updateUser(input:UserInput):User
     deleteUser(id:ID!):User
+    createPost(input:PostInput):Post
 }
 
+type Post{
+    id:ID
+    title:String
+    text:String
+}
 type Query {
     getItem(id:ID!):HackerNewsItem
     getUser(id:ID):User
     getUsers:[User]
+    getPost:[Post]
+
 
 }
 

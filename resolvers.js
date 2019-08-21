@@ -1,9 +1,13 @@
 
 import item from './models/items'
 import User from './models/user'
+import Post from './sequelize/post';
 const users = []
 const root = {
     Query:{
+        getPost:async ()=>{
+            return await Post.findAll()
+        } ,
         getUsers:async()=>{
             return await User.find({});
         },
@@ -17,6 +21,7 @@ const root = {
       
     },
  Mutation:{
+  
     createUser:async (_,{input},context,info)=>{
       
          const user = await User.create(input)
@@ -31,6 +36,9 @@ const root = {
     },
     deleteUser:async(_,{id})=>{
         return await User.findByIdAndRemove({_id:id});
+    },
+    createPost:async(_,{input})=>{
+        return await Post.create(input)
     }
 
  }
